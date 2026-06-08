@@ -1,0 +1,39 @@
+#pragma once
+
+#include "app_core/event.hpp"
+#include "app_core/layer.hpp"
+#include <algorithm>
+#include <concepts>
+#include <memory>
+#include <string>
+#include <vector>
+
+namespace AppCore {
+
+struct ApplicationSpec {
+  std::string name;
+};
+
+class Application {
+public:
+  Application(ApplicationSpec spec);
+
+  auto run() -> void;
+
+  template <typename TLayer>
+    requires std::derived_from<Layer, TLayer>
+  auto pushLayer() {
+    m_layerStack.push_back(std::make_unique<TLayer>(m_eventBus));
+  }
+
+  template <typename TLayer>
+    requires std::derived_from<Layer, TLayer>
+  auto pushLayer(std::unique_ptr<TLayer> layer) {
+    m_layerStack.push_back(std::move(layer));
+  }
+
+private:
+  std::vector<std::unique_ptr<Layer>> m_layerStack;
+  EventBus m_eventBus;
+};
+} // namespace AppCore

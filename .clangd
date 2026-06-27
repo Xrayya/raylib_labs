@@ -44,13 +44,6 @@ Diagnostics:
         modernize-*,
         readability-*,
       ]
-    Remove:
-      [
-        readability-identifier-length,
-        cppcoreguidelines-avoid-magic-numbers,
-        readability-magic-numbers,
-      ]
-
   UnusedIncludes: Strict
 
 InlayHints:

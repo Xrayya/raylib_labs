@@ -1,0 +1,11 @@
+Checks: >
+  clang-analyzer-*,
+  bugprone-*,
+  modernize-*,
+  performance-*,
+  cppcoreguidelines-*,
+  readability-*,
+
+WarningsAsErrors: >
+  clang-analyzer-*,
+  bugprone-*,

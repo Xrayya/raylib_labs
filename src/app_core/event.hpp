@@ -8,9 +8,9 @@
 
 namespace AppCore {
 template <typename T>
-concept ValidEvent = requires(T e) {
-  { e.timestamp } -> std::convertible_to<uint64_t>;
-  { e.handled } -> std::convertible_to<bool>;
+concept ValidEvent = requires(T event) {
+  { event.timestamp } -> std::convertible_to<uint64_t>;
+  { event.handled } -> std::convertible_to<bool>;
 };
 
 class EventBus {
@@ -29,11 +29,11 @@ public:
   }
 
   template <ValidEvent T> auto publish(const T &event) -> void {
-    std::type_index id = typeid(T);
+    std::type_index typeIdx = typeid(T);
 
-    if (listeners.contains(id)) {
+    if (listeners.contains(typeIdx)) {
       std::any wrappedEvent = event;
-      for (const auto &callback : listeners[id]) {
+      for (const auto &callback : listeners[typeIdx]) {
         callback(wrappedEvent);
       }
     }

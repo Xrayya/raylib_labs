@@ -1,88 +1,17 @@
-/*******************************************************************************************
- *
- *   raylib-extras [ImGui] example - Simple Integration
- *
- *	This is a simple ImGui Integration
- *	It is done using C++ but with C style code
- *	It can be done in C as well if you use the C ImGui wrapper
- *	https://github.com/cimgui/cimgui
- *
- *   Copyright (c) 2021 Jeffery Myers
- *
- ********************************************************************************************/
-
-#include "raylib.h"
-
-#include "imgui.h"
-#include "rlImGui.h"
-
-// DPI scaling functions
-auto ScaleToDPIF(float value) -> float { return GetWindowScaleDPI().x * value; }
-
-auto ScaleToDPII(int value) -> int {
-  return int(GetWindowScaleDPI().x * static_cast<float>(value));
-}
+#include "app_core/application.hpp"
+#include "layers/overlay_layer.hpp"
+#include "layers/red_layer.hpp"
+#include <cstdio>
 
 auto main() -> int {
-  // Initialization
-  //--------------------------------------------------------------------------------------
-  int screenWidth = 1280;
-  int screenHeight = 800;
+  AppCore::ApplicationSpec appSpec = {.name = "Raylib Things"};
 
-  SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_VSYNC_HINT | FLAG_WINDOW_RESIZABLE);
-  InitWindow(screenWidth, screenHeight,
-             "raylib-Extras [ImGui] example - simple ImGui Demo");
-  SetTargetFPS(144);
-  rlImGuiSetup(true);
+  AppCore::Application app(appSpec);
+  app.pushLayer<RedLayer>();
+  app.pushLayer<OverlayLayer>();
+  app.run();
 
-  Texture image = LoadTexture("resources/parrots.png");
-
-  // Main game loop
-  while (!WindowShouldClose()) // Detect window close button or ESC key
-  {
-    BeginDrawing();
-    ClearBackground(DARKGRAY);
-
-    // start ImGui Conent
-    rlImGuiBegin();
-
-    // show ImGui Content
-    bool open = true;
-    ImGui::ShowDemoWindow(&open);
-
-    open = true;
-    if (ImGui::Begin("Test Window", &open)) {
-      ImGui::TextUnformatted(ICON_FA_JEDI);
-
-      rlImGuiImage(&image);
-    }
-    ImGui::End();
-
-    // end ImGui Content
-    rlImGuiEnd();
-
-    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-      DrawText("Prssed", 0, 0, 20, RED);
-    }
-
-    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
-      DrawText("Down", 0, 20, 20, GREEN);
-    }
-
-    if (IsWindowFocused()) {
-      DrawText("Focused", 100, 20, 20, WHITE);
-    }
-
-    EndDrawing();
-    //----------------------------------------------------------------------------------
-  }
-
-  // De-Initialization
-  //--------------------------------------------------------------------------------------
-  rlImGuiShutdown();
-  UnloadTexture(image);
-  CloseWindow(); // Close window and OpenGL context
-  //--------------------------------------------------------------------------------------
+  getchar();
 
   return 0;
 }

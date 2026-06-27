@@ -134,7 +134,7 @@ endif()
 set(RAYLIB_VERSION 5.5)
 find_package(raylib ${RAYLIB_VERSION} QUIET)
 if (NOT raylib_FOUND)
-    message(STATUS "raylib ${RAYLIB_VERSION} not found")
+  message(STATUS "raylib ${RAYLIB_VERSION} not found")
   include(FetchContent)
   FetchContent_Declare(
       raylib
@@ -151,4 +151,60 @@ if (NOT raylib_FOUND)
   endif()
 endif()
 
-target_link_libraries(thing PRIVATE raylib)
+# ========================
+# Fetch imgui
+# ========================
+
+set(IMGUI_VERSION "v1.92.7")
+include(FetchContent)
+FetchContent_Declare(
+    imGui
+    GIT_REPOSITORY https://github.com/ocornut/imgui.git 
+    GIT_TAG ${IMGUI_VERSION}
+)
+FetchContent_MakeAvailable(imGui)
+FetchContent_GetProperties(imGui SOURCE_DIR IMGUI_SRC_DIR)
+
+# ========================
+# Fetch rlImGui
+# ========================
+
+set(RLIMGUI_VERSION "Raylib_5_5")
+FetchContent_Declare(
+    rlImGui
+    GIT_REPOSITORY https://github.com/raylib-extras/rlImGui.git 
+    GIT_TAG ${RLIMGUI_VERSION}
+)
+FetchContent_MakeAvailable(rlImGui)
+FetchContent_GetProperties(rlImGui SOURCE_DIR RLIMGUI_SRC_DIR)
+
+# ========================
+# Create Custom Targets for Non-CMake Libraries
+# ========================
+
+# 1. Define imgui as a static library target so it compiles separately from your strict warnings
+add_library(imgui_lib STATIC
+    ${IMGUI_SRC_DIR}/imgui.cpp
+    ${IMGUI_SRC_DIR}/imgui_draw.cpp
+    ${IMGUI_SRC_DIR}/imgui_tables.cpp
+    ${IMGUI_SRC_DIR}/imgui_widgets.cpp
+    ${IMGUI_SRC_DIR}/imgui_demo.cpp
+)
+target_include_directories(imgui_lib PUBLIC ${IMGUI_SRC_DIR})
+# This line treats ImGui as a system header, suppressing external warnings in your code
+target_include_directories(imgui_lib SYSTEM INTERFACE ${IMGUI_SRC_DIR}) 
+
+# 2. Define rlImGui as a static library target
+add_library(rlimgui_lib STATIC
+    ${RLIMGUI_SRC_DIR}/rlImGui.cpp
+)
+target_include_directories(rlimgui_lib PUBLIC ${RLIMGUI_SRC_DIR})
+target_include_directories(rlimgui_lib SYSTEM INTERFACE ${RLIMGUI_SRC_DIR})
+# rlImGui needs access to both raylib and imgui headers to compile
+target_link_libraries(rlimgui_lib PRIVATE raylib imgui_lib)
+
+# ========================
+# Link Everything to Your Target
+# ========================
+# Link your created library targets instead of phantom find_package names
+target_link_libraries(thing PRIVATE raylib imgui_lib rlimgui_lib)

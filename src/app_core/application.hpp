@@ -21,13 +21,13 @@ public:
   auto run() -> void;
 
   template <typename TLayer>
-    requires std::derived_from<Layer, TLayer>
+    requires std::derived_from<TLayer, Layer> &&
+             std::constructible_from<TLayer, EventBus &>
   auto pushLayer() {
     m_layerStack.push_back(std::make_unique<TLayer>(m_eventBus));
   }
-
   template <typename TLayer>
-    requires std::derived_from<Layer, TLayer>
+    requires std::derived_from<TLayer, Layer>
   auto pushLayer(std::unique_ptr<TLayer> layer) {
     m_layerStack.push_back(std::move(layer));
   }

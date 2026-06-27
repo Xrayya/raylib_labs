@@ -179,10 +179,9 @@ FetchContent_MakeAvailable(rlImGui)
 FetchContent_GetProperties(rlImGui SOURCE_DIR RLIMGUI_SRC_DIR)
 
 # ========================
-# Create Custom Targets for Non-CMake Libraries
+# Custom Targets for Non-CMake Libraries
 # ========================
 
-# 1. Define imgui as a static library target so it compiles separately from your strict warnings
 add_library(imgui_lib STATIC
     ${IMGUI_SRC_DIR}/imgui.cpp
     ${IMGUI_SRC_DIR}/imgui_draw.cpp
@@ -190,21 +189,29 @@ add_library(imgui_lib STATIC
     ${IMGUI_SRC_DIR}/imgui_widgets.cpp
     ${IMGUI_SRC_DIR}/imgui_demo.cpp
 )
-target_include_directories(imgui_lib PUBLIC ${IMGUI_SRC_DIR})
-# This line treats ImGui as a system header, suppressing external warnings in your code
-target_include_directories(imgui_lib SYSTEM INTERFACE ${IMGUI_SRC_DIR}) 
 
-# 2. Define rlImGui as a static library target
+target_include_directories(imgui_lib INTERFACE ${IMGUI_SRC_DIR})
+target_include_directories(imgui_lib PRIVATE ${IMGUI_SRC_DIR})
+
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    target_compile_options(imgui_lib PRIVATE -w)
+endif()
+
+
 add_library(rlimgui_lib STATIC
     ${RLIMGUI_SRC_DIR}/rlImGui.cpp
 )
-target_include_directories(rlimgui_lib PUBLIC ${RLIMGUI_SRC_DIR})
-target_include_directories(rlimgui_lib SYSTEM INTERFACE ${RLIMGUI_SRC_DIR})
-# rlImGui needs access to both raylib and imgui headers to compile
+target_include_directories(rlimgui_lib INTERFACE ${RLIMGUI_SRC_DIR})
+target_include_directories(rlimgui_lib PRIVATE ${RLIMGUI_SRC_DIR})
+
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    target_compile_options(rlimgui_lib PRIVATE -w)
+endif()
+
 target_link_libraries(rlimgui_lib PRIVATE raylib imgui_lib)
 
 # ========================
-# Link Everything to Your Target
+# Link Everything to Target
 # ========================
-# Link your created library targets instead of phantom find_package names
+
 target_link_libraries(thing PRIVATE raylib imgui_lib rlimgui_lib)

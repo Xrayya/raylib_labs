@@ -35,5 +35,7 @@ auto CApplication::run() -> void {
 
     EndDrawing();
   }
+
+  CloseWindow();
 }
 } // namespace AppCore

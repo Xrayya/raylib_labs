@@ -45,6 +45,7 @@ Diagnostics:
         readability-*,
       ]
   UnusedIncludes: Strict
+  MissingIncludes: Strict
 
 InlayHints:
   Enabled: true

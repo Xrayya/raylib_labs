@@ -17,3 +17,5 @@ auto BlueLayer::onRender() -> void {
 
   DrawRectangle(posX, posY, width, height, BLUE);
 }
+
+auto BlueLayer::onUpdate() -> void {}

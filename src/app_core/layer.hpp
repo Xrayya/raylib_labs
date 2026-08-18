@@ -17,5 +17,6 @@ public:
   virtual auto onAttach() -> void = 0;
   virtual auto onDetach() -> void = 0;
   virtual auto onRender() -> void = 0;
+  virtual auto onUpdate() -> void = 0;
 };
 } // namespace AppCore

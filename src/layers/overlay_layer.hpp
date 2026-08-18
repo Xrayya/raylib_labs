@@ -1,8 +1,9 @@
 #pragma once
 
 #include "app_core/layer.hpp"
+#include "raylib.h"
 
-class RedLayer : public AppCore::ILayer {
+class OverlayLayer : public AppCore::ILayer {
 public:
   auto onInit() -> void override;
   auto onDestroy() -> void override;
@@ -10,4 +11,7 @@ public:
   auto onDetach() -> void override;
   auto onRender() -> void override;
   auto onUpdate() -> void override;
+
+private:
+  Rectangle m_btnRect;
 };

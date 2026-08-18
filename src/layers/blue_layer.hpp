@@ -9,4 +9,5 @@ public:
   auto onAttach() -> void override;
   auto onDetach() -> void override;
   auto onRender() -> void override;
+  auto onUpdate() -> void override;
 };

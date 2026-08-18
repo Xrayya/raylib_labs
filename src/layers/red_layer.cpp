@@ -17,3 +17,5 @@ auto RedLayer::onRender() -> void {
 
   DrawRectangle(posX, posY, width, height, RED);
 }
+
+auto RedLayer::onUpdate() -> void {}

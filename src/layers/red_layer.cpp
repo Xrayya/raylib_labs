@@ -10,8 +10,8 @@ auto RedLayer::onAttach() -> void {}
 auto RedLayer::onDetach() -> void {}
 
 auto RedLayer::onRender() -> void {
-  constexpr int posX = 0;
-  constexpr int posY = 0;
+  constexpr int posX = 25;
+  constexpr int posY = 25;
   constexpr int width = 50;
   constexpr int height = 50;
 

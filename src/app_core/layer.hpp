@@ -3,6 +3,8 @@
 namespace AppCore {
 class ILayer {
 public:
+  ILayer() = default;
+
   ILayer(const ILayer &) = default;
   ILayer(ILayer &&) = delete;
   auto operator=(const ILayer &) -> ILayer & = default;

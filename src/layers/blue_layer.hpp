@@ -2,7 +2,7 @@
 
 #include "app_core/layer.hpp"
 
-class BlueLayer : AppCore::ILayer {
+class BlueLayer : public AppCore::ILayer {
 public:
   auto onInit() -> void override;
   auto onDestroy() -> void override;

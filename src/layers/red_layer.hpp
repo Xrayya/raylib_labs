@@ -2,7 +2,7 @@
 
 #include "app_core/layer.hpp"
 
-class RedLayer : AppCore::ILayer {
+class RedLayer : public AppCore::ILayer {
 public:
   auto onInit() -> void override;
   auto onDestroy() -> void override;

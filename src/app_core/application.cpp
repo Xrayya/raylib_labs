@@ -23,4 +23,17 @@ auto CApplication::swapLayer(const size_t &layer1Idx, const size_t &layer2Idx)
 
   std::swap(m_layerStack[layer1Idx], m_layerStack[layer2Idx]);
 }
+
+auto CApplication::run() -> void {
+  while (!WindowShouldClose()) {
+    BeginDrawing();
+    ClearBackground(BLACK);
+
+    for (const auto &layer : m_layerStack) {
+      layer->onRender();
+    }
+
+    EndDrawing();
+  }
+}
 } // namespace AppCore

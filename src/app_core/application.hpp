@@ -21,6 +21,8 @@ public:
   auto pushLayer(std::unique_ptr<ILayer> nextLayer) -> void;
   auto swapLayer(const size_t &layer1Idx, const size_t &layer2Idx) -> void;
 
+  auto run() -> void;
+
 private:
   std::vector<std::unique_ptr<ILayer>> m_layerStack;
 };

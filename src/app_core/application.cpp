@@ -8,6 +8,12 @@
 
 namespace AppCore {
 CApplication::CApplication(const SApplicationSpec &spec) {
+  m_eventManager.subscribe<SSwapLayerEvent>(
+      [this](SSwapLayerEvent &event) -> void {
+        this->swapLayer(event.layer1Idx, event.layer2Idx);
+        event.handled = true;
+      });
+
   InitWindow(spec.width, spec.height, spec.appName.c_str());
   SetTargetFPS(spec.targetFPS);
 }
@@ -18,8 +24,8 @@ auto CApplication::pushLayer(std::unique_ptr<ILayer> nextLayer) -> void {
 
 auto CApplication::swapLayer(const size_t &layer1Idx, const size_t &layer2Idx)
     -> void {
-  assert(layer1Idx <= m_layerStack.size() - 1 &&
-         layer2Idx <= m_layerStack.size());
+  assert(layer1Idx <= m_layerStack.size() - 1 && "Out of bound for layer1Idx");
+  assert(layer2Idx <= m_layerStack.size() - 1 && "Out of bound for layer2Idx");
 
   std::swap(m_layerStack[layer1Idx], m_layerStack[layer2Idx]);
 }
@@ -51,7 +57,8 @@ auto CApplication::run() -> void {
 
     if (CheckCollisionPointRec(GetMousePosition(), btnRect)) {
       if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-        swapLayer(0, 1);
+        SSwapLayerEvent event = {.layer1Idx = 0, .layer2Idx = 1};
+        m_eventManager.publish(event);
       }
     }
 

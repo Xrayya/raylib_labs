@@ -1,5 +1,10 @@
 #include "layers/blue_layer.hpp"
+#include "app_core/event.hpp"
+#include "app_core/layer.hpp"
 #include "raylib.h"
+
+BlueLayer::BlueLayer(AppCore::EventManager &eventManager)
+    : AppCore::ILayer(eventManager) {}
 
 auto BlueLayer::onInit() -> void {}
 

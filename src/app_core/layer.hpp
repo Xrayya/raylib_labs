@@ -1,9 +1,12 @@
 #pragma once
 
+#include "app_core/event.hpp"
+#include <functional>
+
 namespace AppCore {
 class ILayer {
 public:
-  ILayer() = default;
+  ILayer(EventManager &eventManager);
 
   ILayer(const ILayer &) = default;
   ILayer(ILayer &&) = delete;
@@ -18,5 +21,8 @@ public:
   virtual auto onDetach() -> void = 0;
   virtual auto onRender() -> void = 0;
   virtual auto onUpdate() -> void = 0;
+
+private:
+  std::reference_wrapper<EventManager> m_eventManager;
 };
 } // namespace AppCore

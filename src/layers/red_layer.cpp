@@ -1,5 +1,10 @@
 #include "layers/red_layer.hpp"
+#include "app_core/event.hpp"
+#include "app_core/layer.hpp"
 #include "raylib.h"
+
+RedLayer::RedLayer(AppCore::EventManager &eventManager)
+    : AppCore::ILayer(eventManager) {}
 
 auto RedLayer::onInit() -> void {}
 

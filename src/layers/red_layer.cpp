@@ -7,10 +7,6 @@
 RedLayer::RedLayer(AppCore::EventManager &eventManager)
     : AppCore::ILayer(eventManager) {}
 
-auto RedLayer::onInit() -> void {}
-
-auto RedLayer::onDestroy() -> void {}
-
 auto RedLayer::onAttach() -> void { std::println("Red layer attached"); }
 
 auto RedLayer::onDetach() -> void {}

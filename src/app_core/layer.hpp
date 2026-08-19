@@ -15,8 +15,6 @@ public:
 
   virtual ~ILayer() = default;
 
-  virtual auto onInit() -> void = 0;
-  virtual auto onDestroy() -> void = 0;
   virtual auto onAttach() -> void = 0;
   virtual auto onDetach() -> void = 0;
   virtual auto onRender() -> void = 0;

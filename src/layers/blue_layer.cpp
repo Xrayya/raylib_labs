@@ -7,10 +7,6 @@
 BlueLayer::BlueLayer(AppCore::EventManager &eventManager)
     : AppCore::ILayer(eventManager) {}
 
-auto BlueLayer::onInit() -> void {}
-
-auto BlueLayer::onDestroy() -> void {}
-
 auto BlueLayer::onAttach() -> void { std::println("Blue layer attached"); }
 
 auto BlueLayer::onDetach() -> void {}

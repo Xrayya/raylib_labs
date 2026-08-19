@@ -8,8 +8,6 @@ class OverlayLayer : public AppCore::ILayer {
 public:
   OverlayLayer(AppCore::EventManager &EventManager);
 
-  auto onInit() -> void override;
-  auto onDestroy() -> void override;
   auto onAttach() -> void override;
   auto onDetach() -> void override;
   auto onRender() -> void override;

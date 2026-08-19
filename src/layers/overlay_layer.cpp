@@ -42,10 +42,6 @@ OverlayLayer::OverlayLayer(AppCore::EventManager &eventManager)
           .height = heightToggleRedRect,
       }) {}
 
-auto OverlayLayer::onInit() -> void {}
-
-auto OverlayLayer::onDestroy() -> void {}
-
 auto OverlayLayer::onAttach() -> void {
   std::println("Overlay layer attached");
 }

@@ -22,6 +22,9 @@ public:
   virtual auto onRender() -> void = 0;
   virtual auto onUpdate() -> void = 0;
 
+protected:
+  auto getEventBus() -> EventManager &;
+
 private:
   std::reference_wrapper<EventManager> m_eventManager;
 };

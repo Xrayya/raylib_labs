@@ -19,7 +19,9 @@ CApplication::CApplication(const SApplicationSpec &spec) {
 }
 
 auto CApplication::pushLayer(std::unique_ptr<ILayer> nextLayer) -> void {
+  auto *newLayer = nextLayer.get();
   m_layerStack.push_back(std::move(nextLayer));
+  newLayer->onAttach();
 }
 
 auto CApplication::swapLayer(const size_t &layer1Idx, const size_t &layer2Idx)
@@ -31,35 +33,16 @@ auto CApplication::swapLayer(const size_t &layer1Idx, const size_t &layer2Idx)
 }
 
 auto CApplication::run() -> void {
-  constexpr int posXRect = 100;
-  constexpr int posYRect = 100;
-  constexpr int widthRect = 100;
-  constexpr int heightRect = 50;
-
-  constexpr int posXText = 110;
-  constexpr int posYText = 110;
-  constexpr int fontSize = 15;
-
-  Rectangle btnRect = {
-      .x = posXRect, .y = posYRect, .width = widthRect, .height = heightRect};
-
   while (!WindowShouldClose()) {
+    for (const auto &layer : m_layerStack) {
+      layer->onUpdate();
+    }
+
     BeginDrawing();
     ClearBackground(BLACK);
 
     for (const auto &layer : m_layerStack) {
       layer->onRender();
-    }
-
-    DrawRectangleRec(btnRect, GRAY);
-
-    DrawText("Switch", posXText, posYText, fontSize, WHITE);
-
-    if (CheckCollisionPointRec(GetMousePosition(), btnRect)) {
-      if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-        SSwapLayerEvent event = {.layer1Idx = 0, .layer2Idx = 1};
-        m_eventManager.publish(event);
-      }
     }
 
     EndDrawing();

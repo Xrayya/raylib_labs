@@ -1,10 +1,13 @@
 #pragma once
 
+#include "app_core/event.hpp"
 #include "app_core/layer.hpp"
 #include "raylib.h"
 
 class OverlayLayer : public AppCore::ILayer {
 public:
+  OverlayLayer(AppCore::EventManager &EventManager);
+
   auto onInit() -> void override;
   auto onDestroy() -> void override;
   auto onAttach() -> void override;

@@ -24,7 +24,7 @@ public:
     requires std::derived_from<TLayer, ILayer> &&
              std::constructible_from<TLayer, EventManager &>
   auto pushLayer() -> void {
-    m_layerStack.push_back(std::make_unique<TLayer>(m_eventManager));
+    pushLayer(std::make_unique<TLayer>(m_eventManager));
   }
   auto pushLayer(std::unique_ptr<ILayer> nextLayer) -> void;
   auto swapLayer(const size_t &layer1Idx, const size_t &layer2Idx) -> void;

@@ -1,5 +1,6 @@
 #include "app_core/application.hpp"
 #include "layers/blue_layer.hpp"
+#include "layers/overlay_layer.hpp"
 #include "layers/red_layer.hpp"
 #include <cstdio>
 
@@ -19,6 +20,7 @@ auto main() -> int {
 
   app.pushLayer<RedLayer>();
   app.pushLayer<BlueLayer>();
+  app.pushLayer<OverlayLayer>();
 
   app.run();
 

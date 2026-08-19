@@ -5,4 +5,6 @@
 
 namespace AppCore {
 ILayer::ILayer(EventManager &EventManager) : m_eventManager(EventManager) {}
+
+auto ILayer::getEventBus() -> EventManager & { return m_eventManager; }
 } // namespace AppCore

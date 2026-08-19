@@ -2,6 +2,7 @@
 #include "app_core/event.hpp"
 #include "app_core/layer.hpp"
 #include "raylib.h"
+#include <print>
 
 RedLayer::RedLayer(AppCore::EventManager &eventManager)
     : AppCore::ILayer(eventManager) {}
@@ -10,7 +11,7 @@ auto RedLayer::onInit() -> void {}
 
 auto RedLayer::onDestroy() -> void {}
 
-auto RedLayer::onAttach() -> void {}
+auto RedLayer::onAttach() -> void { std::println("Red layer attached"); }
 
 auto RedLayer::onDetach() -> void {}
 

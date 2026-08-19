@@ -16,5 +16,10 @@ public:
   auto onUpdate() -> void override;
 
 private:
-  Rectangle m_btnRect;
+  Rectangle m_btnSwitchRect;
+  Rectangle m_btnToggleBlueRect;
+  Rectangle m_btnToggleRedRect;
+
+  bool m_blueLayerRegistered = true;
+  bool m_redLayerRegistered = true;
 };

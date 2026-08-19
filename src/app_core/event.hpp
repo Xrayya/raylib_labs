@@ -3,9 +3,12 @@
 #include <concepts>
 #include <cstdint>
 #include <functional>
+#include <memory>
+#include <queue>
 #include <ranges>
 #include <typeindex>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 namespace AppCore {
@@ -48,6 +51,26 @@ public:
                   });
   }
 
+  template <ValidEvent TEvent> auto enqueue(TEvent event) -> void {
+    auto storedEvent = std::make_shared<TEvent>(std::move(event));
+    m_eventQueue.push(
+        [this, storedEvent]() mutable -> auto { this->publish(*storedEvent); });
+  }
+
+  auto processEvents() -> void;
+
+private:
+  struct SRegisteredListener {
+    SubscriptionId id;
+    std::function<void(void *)> callback;
+  };
+
+  std::unordered_map<std::type_index, std::vector<SRegisteredListener>>
+      m_listeners;
+  std::queue<std::function<void()>> m_eventQueue;
+
+  SubscriptionId m_nextId = 1;
+
   template <ValidEvent TEvent> auto publish(TEvent &event) -> void {
     const std::type_index &typeIdx = typeid(TEvent);
 
@@ -63,16 +86,5 @@ public:
       listener.callback(&event);
     }
   }
-
-private:
-  struct SRegisteredListener {
-    SubscriptionId id;
-    std::function<void(void *)> callback;
-  };
-
-  std::unordered_map<std::type_index, std::vector<SRegisteredListener>>
-      m_listeners;
-
-  SubscriptionId m_nextId = 1;
 };
 } // namespace AppCore

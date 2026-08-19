@@ -1,7 +1,8 @@
 #include "app_core/application.hpp"
-#include "layers/blue_layer.hpp"
-#include "layers/overlay_layer.hpp"
-#include "layers/red_layer.hpp"
+#include "layers/appui_test_layer.hpp"
+// #include "layers/blue_layer.hpp"
+// #include "layers/overlay_layer.hpp"
+// #include "layers/red_layer.hpp"
 #include <cstdio>
 
 auto main() -> int {
@@ -18,9 +19,10 @@ auto main() -> int {
 
   AppCore::CApplication app(spec);
 
-  app.pushLayer<RedLayer>();
-  app.pushLayer<BlueLayer>();
-  app.pushLayer<OverlayLayer>();
+  // app.pushLayer<RedLayer>();
+  // app.pushLayer<BlueLayer>();
+  // app.pushLayer<OverlayLayer>();
+  app.pushLayer<AppUITestLayer>();
 
   app.run();
 

@@ -6,8 +6,8 @@
 #include <cstdio>
 
 auto main() -> int {
-  constexpr int specWidth = 500;
-  constexpr int specHeight = 500;
+  constexpr int specWidth = 1000;
+  constexpr int specHeight = 1000;
   constexpr int specFPS = 60;
 
   AppCore::SApplicationSpec spec = {
